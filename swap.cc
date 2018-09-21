@@ -2,13 +2,11 @@
 using namespace std;
 
 int x = 6, y = 4;
-void swap(int &a, int &b)
-{
-    int newx = b;
+void swap(int &a, int &b){
+    x += y;
+    y = x - y;
+    x = x - y;
 
-    y = x;
-    x = newx;
-    
 }
 
 int main ()

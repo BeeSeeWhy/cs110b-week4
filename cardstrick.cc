@@ -24,6 +24,30 @@ int choosePile()
     return choice;
 }
 
+void shufflePile(int firstI, int cardsPile[], int pileSize, const int cards[]) {
+    for(int i = firstI, counter = 0; counter < pileSize; i += 3, counter++) {
+        cardsPile[counter] = cards[i];
+    }
+}
+
+void combinePilesFirst(int initialI, int cardsPile[], int pileSize, int cards[]) {
+    for(int counter = initialI; counter < pileSize; counter++) {
+        cards[counter] = cardsPile[counter];
+    }
+}
+
+void combinePilesSecond(int initialI, int cardsPile[], int pileSize, int cards[]) {
+    for(int counter = initialI; counter < pileSize; counter++) {
+        cards[counter + 7] = cardsPile[counter];
+    }
+}
+
+void combinePilesThird(int initialI, int cardsPile[], int pileSize, int cards[]) {
+    for(int counter = initialI; counter < pileSize; counter++) {
+        cards[counter + 14] = cardsPile[counter];
+    }
+}
+
 int main() {
 
     const int SIZE = 21, PILESIZE = 7;
@@ -45,57 +69,25 @@ int main() {
     } while(choice != 0);
 
     for(int shuffle = 0; shuffle < 3; shuffle++) {
-          for(int i = 0, counter = 0; counter < PILESIZE; i += 3, counter++) {
-                cardsPile1[counter] = cards[i];
-          }
-
-          for(int i = 1, counter = 0; counter < PILESIZE; i += 3, counter++) {
-                cardsPile2[counter] = cards[i];
-          }
-
-          for(int i =2, counter = 0; counter < PILESIZE; i += 3, counter++) {
-                cardsPile3[counter] = cards[i];
-          }
+          shufflePile(0, cardsPile1, PILESIZE, cards);
+          shufflePile(1, cardsPile2, PILESIZE, cards);
+          shufflePile(2, cardsPile3, PILESIZE, cards);
 
           printPiles(cardsPile1, cardsPile2, cardsPile3, PILESIZE);
           choice = choosePile();
           switch (choice) {
-              case 1: for(int counter = 0; counter < PILESIZE; counter++) {
-                          cards[counter] = cardsPile2[counter];
-                      }
-
-                      for(int counter = 0; counter < PILESIZE; counter++) {
-                          cards[counter + 7] = cardsPile1[counter];
-                      }
-
-                  for(int counter = 0; counter < PILESIZE; counter++) {
-                      cards[counter + 14] = cardsPile3[counter];
-                  }
-                  break;
-          case 2: for(int counter = 0; counter < PILESIZE; counter++) {
-                      cards[counter] = cardsPile3[counter];
-                  }
-
-                  for(int counter = 0; counter < PILESIZE; counter++) {
-                      cards[counter + 7] = cardsPile2[counter];
-                  }
-
-                  for(int counter = 0; counter < PILESIZE; counter++) {
-                      cards[counter + 14] = cardsPile1[counter];
-                  }
-                  break;
-          case 3: for(int counter = 0; counter < PILESIZE; counter++) {
-                      cards[counter] = cardsPile1[counter];
-                  }
-
-                  for(int counter = 0; counter < PILESIZE; counter++) {
-                      cards[counter + 7] = cardsPile3[counter];
-                  }
-
-                  for(int counter = 0; counter < PILESIZE; counter++) {
-                          cards[counter + 14] = cardsPile2[counter];
-                  }
-                  break;
+              case 1: combinePilesFirst(0, cardsPile2, PILESIZE, cards);
+                      combinePilesSecond(0, cardsPile1, PILESIZE, cards);
+                      combinePilesThird(0, cardsPile3, PILESIZE, cards);
+                      break;
+              case 2: combinePilesFirst(0, cardsPile3, PILESIZE, cards);
+                      combinePilesSecond(0, cardsPile2, PILESIZE, cards);
+                      combinePilesThird(0, cardsPile1, PILESIZE, cards);
+                      break;
+              case 3: combinePilesFirst(0, cardsPile1, PILESIZE, cards);
+                      combinePilesSecond(0, cardsPile3, PILESIZE, cards);
+                      combinePilesThird(0, cardsPile2, PILESIZE, cards);
+                      break;
           }
     }
 
